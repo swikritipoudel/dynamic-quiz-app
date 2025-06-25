@@ -3,11 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dynamic Quiz App</title>
 </head>
 <body>
-    <p id="display"></p>
-    <button onclick="start()">Start</button>
+    <h1>Dynamic Quiz App</h1>
+    <form action="" class="quizForm">
+        <select name="" id="category">
+            <option value="">Select category</option>
+            <option value="9">General Knowledge</option>
+            <option value="17">Science & Nature</option>
+            <option value="21">Sports</option>
+            <option value="22">Geography</option>
+            <option value="27">Animals</option>
+            <option value="18">Computer Science</option>
+        </select>
+
+        <select name="" id="difficultyLevel">
+            <option value="">Select difficulty level</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>        
+        <button type="submit">Enter</button>
+    </form>
+    <div class="card"></div>
     <script src="script.js"></script>
 </body>
 </html>
