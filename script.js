@@ -1,29 +1,37 @@
-let category = document.getElementById("category").value
-let difficulty= document.getElementById("difficultyLevel").value
-let quizForm = document.querySelector(".quizForm")
-let card = document.querySelector("card")
+const quizForm = document.querySelector(".quizForm")
+const category = document.querySelector(".category").value
+const difficulty = document.querySelector(".difficulty").value
 
-quizForm.addEventListener("submit",async function (event){
-    event.preventDefault()
 
-    let nextQuestion = document.createElement("button")
-    nextQuestion.textContent = "Next Question"
-    card.appendChild(nextQuestion)
-    
-    
-    const apiUrl = `https://opentdb.com/api.php?amount=30&category=${category}&difficulty=${difficulty}&type=multiple`
+function fetchQuestion(){
+    quizForm.addEventListener("submit", async function (event){
+        event.preventDefault()
 
-    let response = await fetch(apiUrl)
-    
+        const apiUrl = `https://opentdb.com/api.php?amount=30&category=${category}&difficulty=${difficulty}&type=multiple`
 
-    try{
-    let data = await response.json()
-    console.log(data)
-        }
+        let response = await fetch(apiUrl)
 
-    catch(error){
-            console.error(error)
-    }
+        let data = await response.json()
 
-    
-})
+        displayQuestion()
+
+
+    })
+
+}
+
+
+
+function displayQuestion(){
+
+}
+
+function nextQuestion(){
+
+}
+
+function setTimer(){
+
+}
+
+fetchQuestion()
