@@ -1,12 +1,14 @@
 const quizForm = document.querySelector(".quizForm")
-const category = document.querySelector(".category").value
-const difficulty = document.querySelector(".difficulty").value
 const card = document.querySelector(".card")
-
+let currentIndex = 0
+let quizData = [ ]
 
 function fetchQuestion(){
     quizForm.addEventListener("submit", async function (event){
         event.preventDefault()
+        
+        const category = document.querySelector(".category").value
+        const difficulty = document.querySelector(".difficulty").value
 
         const apiUrl = `https://opentdb.com/api.php?amount=30&category=${category}&difficulty=${difficulty}&type=multiple`
 
@@ -15,7 +17,7 @@ function fetchQuestion(){
         let data = await response.json()
         console.log(data)
 
-        let quizData = data.results
+        quizData = data.results
 
         displayQuestion(quizData)
 
@@ -25,17 +27,17 @@ function fetchQuestion(){
 }
 
 
-let currentIndex = 0
 
-function displayQuestion(quiz){
+
+function displayQuestion(){
 
 
 let showQuestion = document.createElement("p")
-showQuestion.textContent = quiz[currentIndex].question
+showQuestion.textContent = quizData[currentIndex].question
 card.appendChild(showQuestion)
 
-let correct = quiz[currentIndex].correct_answer
-let options = [...quiz[currentIndex].incorrect_answers, correct]
+let correct = quizData[currentIndex].correct_answer
+let options = [...quizData[currentIndex].incorrect_answers, correct]
 options.sort(()=>{Math.random() - 0.5})
 
 options.forEach((option)=>{
@@ -52,14 +54,14 @@ options.forEach((option)=>{
     let nextButton = document.createElement("button")
     nextButton.textContent = "Next Question"
     nextButton.onclick = () => {
-        nextQuestion(currentIndex, quiz);
+        nextQuestion();
 };    
 card.appendChild(nextButton)
 
 }
 
-function nextQuestion(index){
-    index++
+function nextQuestion(){
+    currentIndex++
     displayQuestion()
 }
 
