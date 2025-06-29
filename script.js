@@ -1,6 +1,7 @@
 const quizForm = document.querySelector(".quizForm")
 const card = document.getElementById("card")
 let enter = document.getElementById("enter")
+let time = document.querySelector(".time")
 let currentIndex = 0
 let score = 0
 let quizData = [ ]
@@ -39,6 +40,13 @@ function fetchQuestion(){
         }
 
         let data = await response.json()
+
+        if (data.response_code === 1) {
+            displayError("No questions found for selected category & difficulty. Try different settings.");
+            quizInProgress = false;
+            return;
+        }
+
         quizData = data.results
         displayQuestion()
         setTimer()
@@ -68,8 +76,8 @@ function displayQuestion(){
     card.innerHTML = ""
 
 
-if (currentIndex >= quizData.length || elapsedTime<=0){
-     clearInterval(timer)   
+if (currentIndex >= quizData.length){ 
+    clearInterval(timer); 
      card.innerHTML = "<p>Quiz completed! Thanks for playing.</p>"
      let displayScore = document.createElement("p")
      displayScore.textContent = `Your final score is ${score}`
@@ -148,7 +156,7 @@ function displayError(message){
 
 function setTimer(){
     let showTime = document.createElement("p")
-    card.appendChild(showTime)
+    time.appendChild(showTime)
     const endTime = Date.now() + (20 * 60000)
      timer = setInterval(()=>{
         let currentTime = Date.now()
