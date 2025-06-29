@@ -5,6 +5,8 @@ let currentIndex = 0
 let score = 0
 let quizData = [ ]
 let quizInProgress = false
+let timer = null
+let elapsedTime = 0 
 
 
 function decodeHtml(html) {
@@ -39,6 +41,7 @@ function fetchQuestion(){
         let data = await response.json()
         quizData = data.results
         displayQuestion()
+        setTimer()
         }
 
         catch(error){
@@ -64,7 +67,9 @@ function displayQuestion(){
 
     card.innerHTML = ""
 
-if (currentIndex >= quizData.length){
+
+if (currentIndex >= quizData.length || elapsedTime<=0){
+     clearInterval(timer)   
      card.innerHTML = "<p>Quiz completed! Thanks for playing.</p>"
      let displayScore = document.createElement("p")
      displayScore.textContent = `Your final score is ${score}`
@@ -137,6 +142,36 @@ function displayError(message){
     error.textContent = message
 
     card.appendChild(error)
+}
+
+
+
+function setTimer(){
+    let showTime = document.createElement("p")
+    card.appendChild(showTime)
+    const endTime = Date.now() + (20 * 60000)
+     timer = setInterval(()=>{
+        let currentTime = Date.now()
+        elapsedTime = endTime - currentTime
+
+        
+    if (elapsedTime <= 0) {
+      clearInterval(timer);
+      card.innerHTML = "<p>Time's up!</p>";
+      const displayScore = document.createElement("p");
+      displayScore.textContent = `Your final score is ${score}`;
+      card.appendChild(displayScore);
+      return;
+    }
+        
+        let showMinutes = Math.floor((elapsedTime/1000)/60)
+        let showSeconds = Math.floor((elapsedTime/1000)%60)
+
+        showMinutes = String(showMinutes).padStart(2,"0")
+        showSeconds = String(showSeconds).padStart(2,"0")
+
+        showTime.textContent = `${showMinutes}:${showSeconds}`
+    },1000)
 }
 
 
