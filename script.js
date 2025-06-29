@@ -8,6 +8,8 @@ let quizData = [ ]
 let quizInProgress = false
 let timer = null
 let elapsedTime = 0 
+let endTime
+let showTime
 
 
 function decodeHtml(html) {
@@ -31,7 +33,9 @@ function fetchQuestion(){
         if(category && difficulty){
 
         try{   
-        quizInProgress = true    
+        quizInProgress = true
+        card.innerHTML = "Loading questions..." 
+          
         const apiUrl = `https://opentdb.com/api.php?amount=30&category=${category}&difficulty=${difficulty}&type=multiple`
         let response = await fetch(apiUrl)
 
@@ -48,10 +52,19 @@ function fetchQuestion(){
         }
 
         quizData = data.results
+
+
+        currentIndex = 0
+        score = 0 
+        elapsedTime = 0;
+        clearInterval(timer);
+        
+
         displayQuestion()
         setTimer()
         }
 
+        
         catch(error){
             displayError(error)
             console.error(error)
@@ -71,6 +84,7 @@ function fetchQuestion(){
 
 
 
+
 function displayQuestion(){
 
     card.innerHTML = ""
@@ -80,12 +94,14 @@ if (currentIndex >= quizData.length){
     clearInterval(timer); 
      card.innerHTML = "<p>Quiz completed! Thanks for playing.</p>"
      let displayScore = document.createElement("p")
+     displayScore.classList.add("displayScore")
      displayScore.textContent = `Your final score is ${score}`
      card.appendChild(displayScore)
     return
 }
 
 let showQuestion = document.createElement("p")
+showQuestion.classList.add("showQuestion")
 showQuestion.textContent = decodeHtml(quizData[currentIndex].question)
 card.appendChild(showQuestion)
 
@@ -93,21 +109,26 @@ let correct = quizData[currentIndex].correct_answer
 let options = [...quizData[currentIndex].incorrect_answers, correct]
 options.sort(()=>Math.random() - 0.5)
 
-let radio;
+
 options.forEach((option)=>{
-    radio = document.createElement("input")
+    let wrapper = document.createElement("div")
+    wrapper.classList.add("wrapper")
+    let radio = document.createElement("input")
     radio.type = "radio"
     radio.name = "options"
     radio.value = option 
 
     let showOption = document.createElement("label")
+    showOption.classList.add("showOption")
     showOption.textContent = decodeHtml(option)
 
-    card.appendChild(radio)
-    card.appendChild(showOption)
+    wrapper.appendChild(radio)
+    wrapper.appendChild(showOption)
+    card.appendChild(wrapper)
 })
 
     let nextButton = document.createElement("button")
+    nextButton.classList.add("nextButton")
     nextButton.textContent = "Next Question"
     nextButton.type = "button"
     nextButton.onclick =() =>{
@@ -139,6 +160,7 @@ function nextQuestion(correct){
 
 
 
+
 function displayError(message){
     const existingError = document.querySelector('.error-message')
     if(existingError) {
@@ -154,13 +176,23 @@ function displayError(message){
 
 
 
+
+
 function setTimer(){
-    let showTime = document.createElement("p")
+    showTime = document.createElement("p")
+    showTime.classList.add("showTime")
     time.appendChild(showTime)
-    const endTime = Date.now() + (20 * 60000)
-     timer = setInterval(()=>{
-        let currentTime = Date.now()
-        elapsedTime = endTime - currentTime
+    endTime = Date.now() + (20 * 60000)
+    timer = setInterval(updateTimer,1000)
+    updateTimer()
+}
+
+
+
+
+function updateTimer(){
+    let currentTime = Date.now()
+    elapsedTime = endTime - currentTime
 
         
     if (elapsedTime <= 0) {
@@ -179,7 +211,6 @@ function setTimer(){
         showSeconds = String(showSeconds).padStart(2,"0")
 
         showTime.textContent = `${showMinutes}:${showSeconds}`
-    },1000)
 }
 
 
