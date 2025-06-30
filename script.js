@@ -151,9 +151,14 @@ function nextQuestion(correct){
         return
     }
 
-    if(correct === selectedOption.value){
-        score++
+    if(selectedOption.value != correct){
+        selectedOption.parentElement.classList.add("incorrect")
     }
+    
+    correct.parentElement.classList.add("correct")
+    score++
+
+
     currentIndex++
     displayQuestion()
 }

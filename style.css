@@ -1,0 +1,65 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: poppins;
+    background-color:#24283b; 
+    color: #fff;
+}
+
+h1{
+    font-size: 3rem;
+}
+
+.quizForm{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quizForm select{
+    font-size: 1.5rem;
+    font-family: inherit;
+    
+}
+
+.quizForm #enter{
+    font-size: 2rem;
+    width: min(100px,80vw);
+    border-radius: 10px;
+    margin: 10px auto;
+    border: none;
+    color: #fff;
+    background-color: rgba(255, 166, 0, 0.89);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+#card{
+    font-size: 1.5rem;
+}
+
+.nextButton{
+    font-size: 2rem;
+    border-radius: 10px;
+    margin: 10px auto;
+    border: none;
+    color: #fff;
+    padding: 0 10px;
+    background-color: #a9b1d6;
+    font-family: inherit;
+}
+
+.correct{
+    background-color: green;
+}
+
+.incorrect{
+    background-color: red;
+}
