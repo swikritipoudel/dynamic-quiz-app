@@ -151,16 +151,24 @@ function nextQuestion(correct){
         return
     }
 
-    if(selectedOption.value != correct){
-        selectedOption.parentElement.classList.add("incorrect")
+    if (selectedOption.value === correct) {
+        score++;
+    } else {
+        selectedOption.parentElement.classList.add("incorrect");
     }
+
+     document.querySelectorAll('input[name="options"]').forEach(input => {
+        if (input.value === correct) {
+            input.parentElement.classList.add("correct");
+        }
+    });
     
-    correct.parentElement.classList.add("correct")
-    score++
 
 
+setTimeout(() => {
     currentIndex++
     displayQuestion()
+    }, 800);
 }
 
 
